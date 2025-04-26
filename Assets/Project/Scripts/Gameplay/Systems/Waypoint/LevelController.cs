@@ -4,18 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class WaypointNavigator : MonoBehaviour
+public class LevelController
 {
-    [SerializeField]
-    private List<Waypoint> _wayPoints;
-    [SerializeField]
     private PlayerController _playerController;
-
     private Waypoint _currentWaypoint;
+    private Level _level;
 
+    public LevelController(Level level, Player player)
+    {
+        _level = level;
+        _playerController = player.GetComponent<PlayerController>();
+    }
+    
     public void Launch()
     {
         NextWaypoint();
+        _playerController.OnStop += ActivateWaypoint;
     }
 
     private void MoveToWaypoint(Waypoint waypoint)
@@ -35,7 +39,7 @@ public class WaypointNavigator : MonoBehaviour
 
     private void NextWaypoint()
     {
-        var nextWaypoint = _wayPoints.FirstOrDefault(x => !x.IsComplete);
+        var nextWaypoint = _level.WayPoints.FirstOrDefault(x => !x.IsComplete);
 
         if (nextWaypoint)
         {
@@ -56,13 +60,8 @@ public class WaypointNavigator : MonoBehaviour
     {
         _currentWaypoint.Activate(_playerController);
     }
-
-    private void OnEnable()
-    {
-        _playerController.OnStop += ActivateWaypoint;
-    }
     
-    private void OnDisable()
+    private void OnDestroy()
     {
         _playerController.OnStop -= ActivateWaypoint;
     }

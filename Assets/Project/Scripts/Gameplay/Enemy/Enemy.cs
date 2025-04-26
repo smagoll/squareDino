@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour, IMovable
+public class Enemy : MonoBehaviour, IMovable, IDamageable
 {
     [SerializeField]
     private float speed = 1;
@@ -33,5 +33,10 @@ public class Enemy : MonoBehaviour, IMovable
             yield return null;
 
         Debug.Log("Враг остановился перед игроком!");
+    }
+
+    public void ApplyDamage(float damage)
+    {
+        Debug.Log(damage);
     }
 }

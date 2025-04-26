@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour, IMovable
     [SerializeField]
     private NavMeshAgent _navMeshAgent;
     
-    private bool _isMoving = false;
+    private bool _isMoving;
 
     public void MoveTo(Vector3 targetPosition)
     {

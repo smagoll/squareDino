@@ -21,9 +21,12 @@ public class Projectile : MonoBehaviour
     
     public void Launch(Vector3 startPosition, Vector3 targetPosition)
     {
-        transform.position = startPosition;
         _direction = (targetPosition - startPosition).normalized;
+        transform.position = startPosition;
+        transform.forward = _direction;
         _isActive = true;
+        
+        Debug.DrawLine(startPosition, targetPosition, Color.green, 2.0f);
     }
     
     private void Update()

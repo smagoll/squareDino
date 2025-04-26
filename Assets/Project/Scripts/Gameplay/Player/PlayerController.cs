@@ -31,4 +31,32 @@ public class PlayerController : MonoBehaviour, IMovable
             }
         }
     }
+    
+    public void RotateTowards(Vector3 targetPosition, float duration = 0.5f)
+    {
+        StartCoroutine(RotateCoroutine(targetPosition, duration));
+    }
+    
+    private IEnumerator RotateCoroutine(Vector3 targetPosition, float duration)
+    {
+        Vector3 direction = (targetPosition - transform.position).normalized;
+        direction.y = 0f;
+
+        if (direction == Vector3.zero)
+            yield break;
+
+        Quaternion startRotation = transform.rotation;
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+
+        float timeElapsed = 0f;
+
+        while (timeElapsed < duration)
+        {
+            transform.rotation = Quaternion.Slerp(startRotation, targetRotation, timeElapsed / duration);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.rotation = targetRotation;
+    }
 }

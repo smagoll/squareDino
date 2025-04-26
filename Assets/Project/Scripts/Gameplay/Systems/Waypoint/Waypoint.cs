@@ -15,9 +15,20 @@ public class Waypoint : MonoBehaviour
 
     public void Activate(PlayerController playerController)
     {
-        foreach (var enemy in _enemies)
+        var aliveEnemies = _enemies.Where(enemy => !enemy.IsDead).ToArray();
+    
+        if (aliveEnemies.Length > 0)
         {
-            if (!enemy.IsDead)
+            Vector3 centerPosition = Vector3.zero;
+            foreach (var enemy in aliveEnemies)
+            {
+                centerPosition += enemy.transform.position;
+            }
+            centerPosition /= aliveEnemies.Length;
+
+            playerController.RotateTowards(centerPosition);
+
+            foreach (var enemy in aliveEnemies)
             {
                 enemy.MoveTo(playerController.transform.position);
             }

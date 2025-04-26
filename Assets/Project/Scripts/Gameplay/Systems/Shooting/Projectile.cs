@@ -25,8 +25,6 @@ public class Projectile : MonoBehaviour
         transform.position = startPosition;
         transform.forward = _direction;
         _isActive = true;
-        
-        Debug.DrawLine(startPosition, targetPosition, Color.green, 2.0f);
     }
     
     private void Update()
@@ -44,9 +42,12 @@ public class Projectile : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent<IDamageable>(out var damageableObject))
+        if (!other.CompareTag("Player"))
         {
-            damageableObject.ApplyDamage(_damage);
+            if (other.TryGetComponent<IDamageable>(out var damageableObject))
+            {
+                damageableObject.ApplyDamage(_damage);
+            }
         }
         
         _isActive = false;

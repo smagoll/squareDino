@@ -4,21 +4,21 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class LevelController
+public class LevelProgressionController
 {
     private PlayerController _playerController;
     private Waypoint _currentWaypoint;
     private Level _level;
 
-    public LevelController(Level level, Player player)
+    public LevelProgressionController(Level level, Player player)
     {
         _level = level;
         _playerController = player.GetComponent<PlayerController>();
     }
     
-    public void Launch()
+    public void StartProgression()
     {
-        NextWaypoint();
+        AdvanceNextWaypoint();
         _playerController.OnStop += ActivateWaypoint;
     }
 
@@ -34,10 +34,10 @@ public class LevelController
     {
         _currentWaypoint.OnComplete -= CompleteWaypoint;
         
-        NextWaypoint();
+        AdvanceNextWaypoint();
     }
 
-    private void NextWaypoint()
+    private void AdvanceNextWaypoint()
     {
         var nextWaypoint = _level.WayPoints.FirstOrDefault(x => !x.IsComplete);
 
@@ -47,11 +47,11 @@ public class LevelController
         }
         else
         {
-            FinishLevel();
+            CompleteLevel();
         }
     }
     
-    private void FinishLevel()
+    private void CompleteLevel()
     {
         GameEvents.RaiseComplete();
     }
@@ -61,7 +61,7 @@ public class LevelController
         _currentWaypoint.Activate(_playerController);
     }
     
-    private void OnDestroy()
+    public void Cleanup()
     {
         _playerController.OnStop -= ActivateWaypoint;
     }

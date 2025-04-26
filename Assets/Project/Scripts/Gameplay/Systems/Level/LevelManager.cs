@@ -17,40 +17,71 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     private Player _playerPrefab;
 
+    private LevelProgressionController _levelProgressionController;
+
     private void Start()
+    {
+        InitializeLevel();
+    }
+
+    private void InitializeLevel()
     {
         IWeapon weapon = new Pistol(1);
         var pool = _poolSystem.CreatePool();
         weapon.Init(pool);
-        
-        var player = Instantiate(_playerPrefab, _level.WayPoints[0].transform.position, Quaternion.identity, _level.transform);
-        player.Init(weapon);
-        player.DisableControls();
 
-        _virtualCamera.Follow = player.transform;
-        _virtualCamera.LookAt = player.transform;
+        var player = SpawnPlayer(weapon);
+
+        SetupCamera(player); 
         
-        LevelController levelController = new LevelController(_level, player);
+        _levelProgressionController = new LevelProgressionController(_level, player);
         
-        StartCoroutine(WaitForScreenTap(levelController, player));
+        StartCoroutine(WaitForPlayerInput(_levelProgressionController, player));
     }
     
-    private IEnumerator WaitForScreenTap(LevelController levelController, Player player)
+    private Player SpawnPlayer(IWeapon weapon)
+    {
+        Player player = Instantiate(
+            _playerPrefab,
+            _level.WayPoints[0].transform.position,
+            Quaternion.identity,
+            _level.transform
+        );
+        player.Init(weapon);
+        player.DisableControls();
+        return player;
+    }
+    
+    private void SetupCamera(Player player)
+    {
+        _virtualCamera.Follow = player.transform;
+        _virtualCamera.LookAt = player.transform;
+    }
+    
+    private IEnumerator WaitForPlayerInput(LevelProgressionController levelProgressionController, Player player)
     {
         yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
 
         player.EnableControls();
-        levelController.Launch();
+        levelProgressionController.StartProgression();
     }
 
     private void Complete()
     {
+        EndLevel();
         SceneManager.LoadScene("Game");
     }
 
     private void Lose()
     {
+        EndLevel();
         SceneManager.LoadScene("Game");
+    }
+
+    private void EndLevel()
+    {
+        _levelProgressionController?.Cleanup();
+        _levelProgressionController = null;
     }
 
     private void OnEnable()

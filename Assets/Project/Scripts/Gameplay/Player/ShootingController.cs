@@ -39,12 +39,10 @@ public class ShootingController : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             targetPosition = hit.point;
-            Debug.DrawLine(ray.origin, hit.point, Color.red, 1.0f);
         }
         else
         {
             targetPosition = ray.GetPoint(100f);
-            Debug.DrawRay(ray.origin, ray.direction * 100f, Color.blue, 1.0f);
         }
         
         _weapon.Shoot(targetPosition, _spawnPoint);

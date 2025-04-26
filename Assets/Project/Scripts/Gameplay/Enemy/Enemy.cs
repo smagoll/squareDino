@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour, IMovable, IDamageable
 {
     [SerializeField]
-    private float speed = 1;
+    private float _hp = 1;
+    [SerializeField]
+    private float _speed = 1;
+    [SerializeField]
+    private float _damage = 1;
     [SerializeField]
     private NavMeshAgent _navMeshAgent;
     
@@ -14,7 +19,7 @@ public class Enemy : MonoBehaviour, IMovable, IDamageable
 
     private void Start()
     {
-        _navMeshAgent.speed = speed;
+        _navMeshAgent.speed = _speed;
     }
 
     public void MoveTo(Vector3 targetPosition)
@@ -32,11 +37,41 @@ public class Enemy : MonoBehaviour, IMovable, IDamageable
         while (_navMeshAgent.remainingDistance > _navMeshAgent.stoppingDistance)
             yield return null;
 
-        Debug.Log("Враг остановился перед игроком!");
+        TryAttack();
     }
 
     public void ApplyDamage(float damage)
     {
-        Debug.Log(damage);
+        _hp -= damage;
+
+        if (_hp <= 0)
+        {
+            Death();
+        }
+    }
+    
+    private void TryAttack()
+    {
+        Collider[] colliders = new Collider[10];
+        var size = Physics.OverlapSphereNonAlloc(transform.position, 5f, colliders);
+        
+        for (int i = 0; i < size; i++)
+        {
+            if (colliders[i].CompareTag("Player"))
+            {
+                if (colliders[i].TryGetComponent(out IDamageable damageable))
+                {
+                    damageable.ApplyDamage(_damage);
+                    break;
+                }
+            }
+        }
+    }
+
+    private void Death()
+    {
+        IsDead = true;
+        gameObject.SetActive(false);
+        Debug.Log("death");
     }
 }

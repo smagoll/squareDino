@@ -17,7 +17,10 @@ public class Waypoint : MonoBehaviour
     {
         foreach (var enemy in _enemies)
         {
-            enemy.MoveTo(playerController.transform.position);
+            if (!enemy.IsDead)
+            {
+                enemy.MoveTo(playerController.transform.position);
+            }
         }
         
         StartCoroutine(WaitComplete());

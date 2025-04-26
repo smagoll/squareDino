@@ -53,7 +53,7 @@ public class LevelController
     
     private void FinishLevel()
     {
-        Debug.Log("Уровень завершен!");
+        GameEvents.RaiseComplete();
     }
 
     private void ActivateWaypoint()

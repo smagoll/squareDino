@@ -44,7 +44,7 @@ public class LevelProgressionController
         if (nextWaypoint)
         {
             MoveToWaypoint(nextWaypoint);
-            Debug.Log("next waypoint - " + nextWaypoint.gameObject.name);
+            Debug.Log("next " + nextWaypoint.gameObject.name);
         }
         else
         {

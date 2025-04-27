@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Pool;
 
 public class Projectile : MonoBehaviour
 {
     [SerializeField] 
     private float _speed = 1f;
+
+    private Rigidbody rb;
     
     private Vector3 _direction;
     private int _damage;
@@ -12,6 +15,11 @@ public class Projectile : MonoBehaviour
 
     private Pistol _pistol;
     private ObjectPool<Projectile> _pool;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
 
     public void Init(ObjectPool<Projectile> pool, Pistol pistol)
     {
@@ -27,11 +35,11 @@ public class Projectile : MonoBehaviour
         _isActive = true;
     }
     
-    private void Update()
+    private void FixedUpdate()
     {
         if (!_isActive) return;
 
-        transform.position += _direction * (_speed * Time.deltaTime);
+        rb.MovePosition(transform.position + _direction * (_speed * Time.deltaTime));
 
         if (transform.position.magnitude > 1000f)
         {
@@ -42,6 +50,7 @@ public class Projectile : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
+        if (!_isActive) return;
         if (!other.CompareTag("Player"))
         {
             if (other.TryGetComponent<IDamageable>(out var damageableObject))

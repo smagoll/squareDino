@@ -68,7 +68,7 @@ public class Waypoint : MonoBehaviour
     private void Complete()
     {
         IsComplete = true;
-        Debug.Log(gameObject.name + "_complete");
+        Debug.Log("_complete" + gameObject.name);
         
         OnComplete?.Invoke();
     }

@@ -5,24 +5,19 @@ using UnityEngine.Pool;
 [Serializable]
 public class Pistol : IWeapon
 {
-    private ObjectPool<Projectile> _projectilePool;
-    
-    public int Damage { get; private set; }
+    [SerializeField] 
+    private Projectile _projectilePrefab;
+    [SerializeField]
+    private int _damage;
 
-    public Pistol(int damage)
-    {
-        Damage = damage;
-    }
-
-    public void Init(ObjectPool<Projectile> projectilePool)
-    {
-        _projectilePool = projectilePool;
-    }
+    public int Damage => _damage;
     
     public void Shoot(Vector3 targetPosition, Transform spawnPoint)
     {
-        Projectile projectile = _projectilePool.Get();
-        projectile.Init(_projectilePool, this);
+        var pool = PoolSystem.Instance.GetOrCreatePool(_projectilePrefab);
+        Projectile projectile = pool.Get();
+        
+        projectile.Init(pool, this);
         projectile.Launch(spawnPoint.position, targetPosition);
     }
 }

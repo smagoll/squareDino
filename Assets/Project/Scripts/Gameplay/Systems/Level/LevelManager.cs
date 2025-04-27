@@ -13,6 +13,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     private CinemachineVirtualCamera _virtualCamera;
     [SerializeField]
+    private Pistol _pistol;
+    [SerializeField]
     private Level _level;
     [SerializeField]
     private Player _playerPrefab;
@@ -26,11 +28,8 @@ public class LevelManager : MonoBehaviour
 
     private void InitializeLevel()
     {
-        IWeapon weapon = new Pistol(1);
-        var pool = _poolSystem.CreatePool();
-        weapon.Init(pool);
-
-        var player = SpawnPlayer(weapon);
+        var player = SpawnPlayer(_pistol);
+        player.transform.rotation = _level.GetInitialRotation();
 
         SetupCamera(player); 
         

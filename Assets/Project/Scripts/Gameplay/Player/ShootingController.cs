@@ -11,7 +11,6 @@ public class ShootingController : MonoBehaviour
     
     private Camera _camera;
     private IWeapon _weapon;
-    private ObjectPool<Projectile> _projectilePool;
 
     private void Start()
     {

@@ -72,6 +72,5 @@ public class Enemy : MonoBehaviour, IMovable, IDamageable
     {
         IsDead = true;
         gameObject.SetActive(false);
-        Debug.Log("death");
     }
 }

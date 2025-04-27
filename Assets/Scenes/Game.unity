@@ -168,6 +168,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _poolSystem: {fileID: 444158678}
   _virtualCamera: {fileID: 868174553}
+  _pistol:
+    _projectilePrefab: {fileID: -8437081258491883383, guid: c489a76c6fb3ea2468adbcd1795135e2, type: 3}
+    _damage: 1
   _level: {fileID: 688345511}
   _playerPrefab: {fileID: -4192443823699002056, guid: 990d8d46f0e7ae340a5313b12184adff, type: 3}
 --- !u!1 &312849140
@@ -320,7 +323,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d182f23d30e641c583c565885132fcab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _projectile: {fileID: -8437081258491883383, guid: c489a76c6fb3ea2468adbcd1795135e2, type: 3}
   _projectileTransform: {fileID: 1656913412}
 --- !u!1 &488349414
 GameObject:

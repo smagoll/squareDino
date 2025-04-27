@@ -39,7 +39,7 @@ public class LevelProgressionController
 
     private void AdvanceNextWaypoint()
     {
-        var nextWaypoint = _level.WayPoints.FirstOrDefault(x => !x.IsComplete);
+        var nextWaypoint = GetNextWaypoint();
 
         if (nextWaypoint)
         {
@@ -49,6 +49,11 @@ public class LevelProgressionController
         {
             CompleteLevel();
         }
+    }
+    
+    private Waypoint GetNextWaypoint()
+    {
+        return _level.WayPoints.FirstOrDefault(x => !x.IsComplete);
     }
     
     private void CompleteLevel()

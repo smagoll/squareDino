@@ -15,16 +15,11 @@ public class Waypoint : MonoBehaviour
 
     public void Activate(PlayerController playerController)
     {
-        var aliveEnemies = _enemies.Where(enemy => !enemy.IsDead).ToArray();
+        var aliveEnemies = GetAliveEnemies();
     
         if (aliveEnemies.Length > 0)
         {
-            Vector3 centerPosition = Vector3.zero;
-            foreach (var enemy in aliveEnemies)
-            {
-                centerPosition += enemy.transform.position;
-            }
-            centerPosition /= aliveEnemies.Length;
+            Vector3 centerPosition = GetEnemiesCenterPosition(aliveEnemies);
 
             playerController.RotateTowards(centerPosition);
 
@@ -35,6 +30,26 @@ public class Waypoint : MonoBehaviour
         }
         
         StartCoroutine(WaitComplete());
+    }
+    
+    private Enemy[] GetAliveEnemies()
+    {
+        return _enemies.Where(enemy => !enemy.IsDead).ToArray();
+    }
+    
+    private Vector3 GetEnemiesCenterPosition(Enemy[] enemies)
+    {
+        if (enemies.Length == 0)
+            return transform.position;
+            
+        Vector3 centerPosition = Vector3.zero;
+        foreach (var enemy in enemies)
+        {
+            centerPosition += enemy.transform.position;
+        }
+        centerPosition /= enemies.Length;
+        
+        return centerPosition;
     }
     
     private IEnumerator WaitComplete()

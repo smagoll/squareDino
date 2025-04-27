@@ -12,9 +12,14 @@ public class Enemy : MonoBehaviour, IMovable, IDamageable
     private float _speed = 1;
     [SerializeField]
     private float _damage = 1;
+
+    [SerializeField]
+    private Animator _animator;
     [SerializeField]
     private NavMeshAgent _navMeshAgent;
-    
+
+    private static readonly int Move = Animator.StringToHash("move");
+
     public bool IsDead { get; private set; }
 
     private void Start()
@@ -24,6 +29,7 @@ public class Enemy : MonoBehaviour, IMovable, IDamageable
 
     public void MoveTo(Vector3 targetPosition)
     {
+        _animator.SetBool(Move, true);
         _navMeshAgent.destination = targetPosition;
 
         StartCoroutine(WaitMove());
@@ -37,6 +43,7 @@ public class Enemy : MonoBehaviour, IMovable, IDamageable
         while (_navMeshAgent.remainingDistance > _navMeshAgent.stoppingDistance)
             yield return null;
 
+        _animator.SetBool(Move, false);
         TryAttack();
     }
 

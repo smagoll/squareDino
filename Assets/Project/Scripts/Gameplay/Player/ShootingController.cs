@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class ShootingController : MonoBehaviour
+public class ShootingController : MonoBehaviour, IShooter
 {
     [SerializeField] 
     private Transform _spawnPoint;
@@ -20,6 +20,7 @@ public class ShootingController : MonoBehaviour
     public void Init(IWeapon weapon)
     {
         _weapon = weapon;
+        _weapon.Claim(this);
     }
 
     private void Update()
@@ -45,5 +46,10 @@ public class ShootingController : MonoBehaviour
         }
         
         _weapon.Shoot(targetPosition, _spawnPoint);
+    }
+
+    public bool IsChild(GameObject go)
+    {
+        return go.transform.IsChildOf(transform);
     }
 }

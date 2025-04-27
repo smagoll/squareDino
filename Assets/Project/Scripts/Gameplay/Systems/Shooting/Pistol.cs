@@ -10,6 +10,8 @@ public class Pistol : IWeapon
     [SerializeField]
     private int _damage;
 
+    private IShooter _shooter;
+
     public int Damage => _damage;
     
     public void Shoot(Vector3 targetPosition, Transform spawnPoint)
@@ -18,6 +20,11 @@ public class Pistol : IWeapon
         Projectile projectile = pool.Get();
         
         projectile.Init(pool, this);
-        projectile.Launch(spawnPoint.position, targetPosition);
+        projectile.Launch(spawnPoint.position, targetPosition, _shooter);
+    }
+
+    public void Claim(IShooter shooter)
+    {
+        _shooter = shooter;
     }
 }

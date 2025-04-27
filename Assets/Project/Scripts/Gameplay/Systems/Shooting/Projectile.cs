@@ -15,6 +15,7 @@ public class Projectile : MonoBehaviour
 
     private Pistol _pistol;
     private ObjectPool<Projectile> _pool;
+    private IShooter _shooter;
 
     private void Awake()
     {
@@ -27,11 +28,12 @@ public class Projectile : MonoBehaviour
         _damage = pistol.Damage;
     }
     
-    public void Launch(Vector3 startPosition, Vector3 targetPosition)
+    public void Launch(Vector3 startPosition, Vector3 targetPosition, IShooter shooter)
     {
         _direction = (targetPosition - startPosition).normalized;
         transform.position = startPosition;
         transform.forward = _direction;
+        _shooter = shooter;
         _isActive = true;
     }
     
@@ -51,12 +53,17 @@ public class Projectile : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (!_isActive) return;
-        if (!other.CompareTag("Player"))
+
+        if (_shooter.IsChild(other.gameObject)) // игнорирование попадания в самого себя
         {
-            if (other.TryGetComponent<IDamageable>(out var damageableObject))
-            {
-                damageableObject.ApplyDamage(_damage);
-            }
+            return;
+        }
+
+        var damageableObject = other.GetComponentInParent<IDamageable>();
+        
+        if (damageableObject != null)
+        {
+            damageableObject.ApplyDamage(_damage);
         }
         
         _isActive = false;

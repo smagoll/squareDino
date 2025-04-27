@@ -9,15 +9,19 @@ public class PlayerController : MonoBehaviour, IMovable
     public event Action OnStop;
     
     [SerializeField]
+    private Animator _animator;
+    [SerializeField]
     private NavMeshAgent _navMeshAgent;
     
     private bool _isMoving;
+    private static readonly int Move = Animator.StringToHash("move");
 
     public void MoveTo(Vector3 targetPosition)
     {
         _navMeshAgent.isStopped = false;
         _navMeshAgent.SetDestination(targetPosition);
         _isMoving = true;
+        _animator.SetBool(Move, true);
     }
 
     private void Update()
@@ -30,6 +34,7 @@ public class PlayerController : MonoBehaviour, IMovable
                 
                 _navMeshAgent.isStopped = true;
                 _navMeshAgent.ResetPath();
+                _animator.SetBool(Move, false);
                 
                 OnStop?.Invoke();
             }

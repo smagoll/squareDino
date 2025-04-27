@@ -20,7 +20,7 @@ public class Player : MonoBehaviour, IDamageable
         _shootingController.Init(weapon);
     }
 
-    public void ApplyDamage(float damage)
+    public void ApplyDamage(int damage)
     {
         hp -= damage;
 

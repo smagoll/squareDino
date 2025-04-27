@@ -7,16 +7,21 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour, IMovable, IDamageable
 {
     [SerializeField]
-    private float _hp = 1;
+    private int _maxHp = 1;
     [SerializeField]
     private float _speed = 1;
     [SerializeField]
-    private float _damage = 1;
+    private int _damage = 1;
 
     [SerializeField]
     private Animator _animator;
     [SerializeField]
     private NavMeshAgent _navMeshAgent;
+
+    [SerializeField]
+    private HealthBar _healthBar;
+
+    private int _hp;
 
     private static readonly int Move = Animator.StringToHash("move");
 
@@ -25,6 +30,8 @@ public class Enemy : MonoBehaviour, IMovable, IDamageable
     private void Start()
     {
         _navMeshAgent.speed = _speed;
+        _healthBar.SetMaxHp(_maxHp);
+        _hp = _maxHp;
     }
 
     public void MoveTo(Vector3 targetPosition)
@@ -47,9 +54,10 @@ public class Enemy : MonoBehaviour, IMovable, IDamageable
         TryAttack();
     }
 
-    public void ApplyDamage(float damage)
+    public void ApplyDamage(int damage)
     {
         _hp -= damage;
+        _healthBar.UpdateBar(_hp);
 
         if (_hp <= 0)
         {

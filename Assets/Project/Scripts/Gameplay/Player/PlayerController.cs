@@ -12,9 +12,16 @@ public class PlayerController : MonoBehaviour, IMovable
     private Animator _animator;
     [SerializeField]
     private NavMeshAgent _navMeshAgent;
+    [SerializeField]
+    private RagdollController _ragdollController;
     
     private bool _isMoving;
     private static readonly int Move = Animator.StringToHash("move");
+
+    private void Awake()
+    {
+        _ragdollController.DisableRagdoll();
+    }
 
     public void MoveTo(Vector3 targetPosition)
     {

@@ -105,6 +105,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 3549323875935358632}
   _navMeshAgent: {fileID: 2829042794949253077}
+  _ragdollController: {fileID: 1176295212617395174}
 --- !u!114 &4320435117224466687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -243,6 +244,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68617247be1cad64d8dfe7e3cbbb3174, type: 3}
+--- !u!114 &1176295212617395174 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2325774892836269840, guid: 68617247be1cad64d8dfe7e3cbbb3174, type: 3}
+  m_PrefabInstance: {fileID: 3464892857432294646}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df1d671266d24d93956d8c68bf1ed2e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &3460170870953217292 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4849538730314234, guid: 68617247be1cad64d8dfe7e3cbbb3174, type: 3}

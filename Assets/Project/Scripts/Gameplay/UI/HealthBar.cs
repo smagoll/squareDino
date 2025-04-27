@@ -17,4 +17,9 @@ public class HealthBar : MonoBehaviour
     {
         _slider.value = health;
     }
+
+    public void Disable()
+    {
+        gameObject.SetActive(false);
+    }
 }

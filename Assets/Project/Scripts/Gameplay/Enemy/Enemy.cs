@@ -9,21 +9,19 @@ public class Enemy : MonoBehaviour, IMovable, IDamageable
     [SerializeField]
     private int _maxHp = 1;
     [SerializeField]
-    private float _speed = 1;
-    [SerializeField]
     private int _damage = 1;
-
+    [SerializeField]
+    private float _speed = 1;
+    
     [SerializeField]
     private Animator _animator;
     [SerializeField]
     private NavMeshAgent _navMeshAgent;
-    [SerializeField]
-    private Rigidbody[] _ragdollRigidbodies;
-    [SerializeField]
-    private Collider[] _ragdollColliders;
-
+    
     [SerializeField]
     private HealthBar _healthBar;
+    [SerializeField]
+    private RagdollController _ragdollController;
 
     private int _hp;
     private Rigidbody rb;
@@ -35,12 +33,11 @@ public class Enemy : MonoBehaviour, IMovable, IDamageable
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        
-        _navMeshAgent.speed = _speed;
         _healthBar.SetMaxHp(_maxHp);
         _hp = _maxHp;
+        _navMeshAgent.speed = _speed;
         
-        DisableRagdoll();
+        _ragdollController.DisableRagdoll();
     }
 
     public void MoveTo(Vector3 targetPosition)
@@ -70,6 +67,7 @@ public class Enemy : MonoBehaviour, IMovable, IDamageable
 
         if (_hp <= 0)
         {
+            _healthBar.Disable();
             Death();
         }
     }
@@ -92,36 +90,10 @@ public class Enemy : MonoBehaviour, IMovable, IDamageable
         }
     }
 
-    private void DisableRagdoll()
-    {
-        _animator.enabled = true;
-        
-        foreach (var rb in _ragdollRigidbodies)
-        {
-            rb.isKinematic = true;
-        }
-    }
-    
-    private void EnableRagdoll()
-    {
-        rb.isKinematic = true;
-        _animator.enabled = false;
-
-        foreach (var rb in _ragdollRigidbodies)
-        {
-            rb.isKinematic = false;
-        }
-    }
-
     private void Death()
     {
         IsDead = true;
         
-        EnableRagdoll();
+        _ragdollController.EnableRagdoll();
     }
-}
-
-public class Unit : MonoBehaviour
-{
-    
 }

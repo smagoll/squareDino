@@ -786,6 +786,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4849538730314234}
   - component: {fileID: 95841064056441438}
+  - component: {fileID: 2325774892836269840}
   m_Layer: 0
   m_Name: SM_Character_Female_01
   m_TagString: Untagged
@@ -818,7 +819,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1268560294735226}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: e48661ab9bed58b488c51e78c774b728, type: 2}
   m_CullingMode: 1
@@ -831,6 +832,43 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2325774892836269840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1268560294735226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df1d671266d24d93956d8c68bf1ed2e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 95841064056441438}
+  _ragdollRigidbodies:
+  - {fileID: 3626673735220506347}
+  - {fileID: 8887225264313029693}
+  - {fileID: 7939956434591174396}
+  - {fileID: 2185787867449666852}
+  - {fileID: 2455000430343236855}
+  - {fileID: 194434469580499525}
+  - {fileID: 938522555765278470}
+  - {fileID: 7935914964742308613}
+  - {fileID: 8842806979109369065}
+  - {fileID: 9011118132410264788}
+  - {fileID: 4322660977471024915}
+  _ragdollColliders:
+  - {fileID: 1938764136780510334}
+  - {fileID: 4373206520189624708}
+  - {fileID: 991852410169166266}
+  - {fileID: 3239999409727927424}
+  - {fileID: 5198048653691384472}
+  - {fileID: 3244162159158458504}
+  - {fileID: 4575006396215216251}
+  - {fileID: 4807092772622494415}
+  - {fileID: 8765070997965429176}
+  - {fileID: 6032209077610471249}
+  - {fileID: 6067597318928071235}
 --- !u!1 &1299422178917922
 GameObject:
   m_ObjectHideFlags: 0

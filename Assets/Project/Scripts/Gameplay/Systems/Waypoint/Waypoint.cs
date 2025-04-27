@@ -28,7 +28,10 @@ public class Waypoint : MonoBehaviour
 
             foreach (var enemy in aliveEnemies)
             {
-                enemy.MoveTo(playerController.transform.position);
+                if (enemy is IMovable movable)
+                {
+                    movable.MoveTo(playerController.transform.position);
+                }
             }
         }
         

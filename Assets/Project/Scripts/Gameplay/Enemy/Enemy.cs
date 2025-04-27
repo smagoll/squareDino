@@ -17,11 +17,16 @@ public class Enemy : MonoBehaviour, IMovable, IDamageable
     private Animator _animator;
     [SerializeField]
     private NavMeshAgent _navMeshAgent;
+    [SerializeField]
+    private Rigidbody[] _ragdollRigidbodies;
+    [SerializeField]
+    private Collider[] _ragdollColliders;
 
     [SerializeField]
     private HealthBar _healthBar;
 
     private int _hp;
+    private Rigidbody rb;
 
     private static readonly int Move = Animator.StringToHash("move");
 
@@ -29,9 +34,13 @@ public class Enemy : MonoBehaviour, IMovable, IDamageable
 
     private void Start()
     {
+        rb = GetComponent<Rigidbody>();
+        
         _navMeshAgent.speed = _speed;
         _healthBar.SetMaxHp(_maxHp);
         _hp = _maxHp;
+        
+        DisableRagdoll();
     }
 
     public void MoveTo(Vector3 targetPosition)
@@ -83,9 +92,36 @@ public class Enemy : MonoBehaviour, IMovable, IDamageable
         }
     }
 
+    private void DisableRagdoll()
+    {
+        _animator.enabled = true;
+        
+        foreach (var rb in _ragdollRigidbodies)
+        {
+            rb.isKinematic = true;
+        }
+    }
+    
+    private void EnableRagdoll()
+    {
+        rb.isKinematic = true;
+        _animator.enabled = false;
+
+        foreach (var rb in _ragdollRigidbodies)
+        {
+            rb.isKinematic = false;
+        }
+    }
+
     private void Death()
     {
         IsDead = true;
-        gameObject.SetActive(false);
+        
+        EnableRagdoll();
     }
+}
+
+public class Unit : MonoBehaviour
+{
+    
 }

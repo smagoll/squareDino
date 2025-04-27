@@ -42,7 +42,7 @@ public class LevelManager : MonoBehaviour
     {
         Player player = Instantiate(
             _playerPrefab,
-            _level.WayPoints[0].transform.position,
+            _level.WayPoints[0].Place.position,
             Quaternion.identity,
             _level.transform
         );

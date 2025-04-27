@@ -18,8 +18,8 @@ public class LevelProgressionController
     
     public void StartProgression()
     {
-        AdvanceNextWaypoint();
         _playerController.OnStop += ActivateWaypoint;
+        AdvanceNextWaypoint();
     }
 
     private void MoveToWaypoint(Waypoint waypoint)
@@ -27,7 +27,7 @@ public class LevelProgressionController
         _currentWaypoint = waypoint;
         _currentWaypoint.OnComplete += CompleteWaypoint;
         
-        _playerController.MoveTo(waypoint.transform.position);
+        _playerController.MoveTo(waypoint.Place.position);
     }
 
     private void CompleteWaypoint()
@@ -44,6 +44,7 @@ public class LevelProgressionController
         if (nextWaypoint)
         {
             MoveToWaypoint(nextWaypoint);
+            Debug.Log("next waypoint - " + nextWaypoint.gameObject.name);
         }
         else
         {
@@ -63,6 +64,7 @@ public class LevelProgressionController
 
     private void ActivateWaypoint()
     {
+        Debug.Log("activate " + _currentWaypoint.gameObject.name);
         _currentWaypoint.Activate(_playerController);
     }
     

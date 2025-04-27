@@ -15,7 +15,8 @@ public class PlayerController : MonoBehaviour, IMovable
 
     public void MoveTo(Vector3 targetPosition)
     {
-        _navMeshAgent.destination = targetPosition;
+        _navMeshAgent.isStopped = false;
+        _navMeshAgent.SetDestination(targetPosition);
         _isMoving = true;
     }
 
@@ -27,6 +28,9 @@ public class PlayerController : MonoBehaviour, IMovable
             {
                 _isMoving = false;
                 
+                _navMeshAgent.isStopped = true;
+                _navMeshAgent.ResetPath();
+                
                 OnStop?.Invoke();
             }
         }
@@ -34,6 +38,7 @@ public class PlayerController : MonoBehaviour, IMovable
     
     public void RotateTowards(Vector3 targetPosition, float duration = 0.5f)
     {
+        StopAllCoroutines();
         StartCoroutine(RotateCoroutine(targetPosition, duration));
     }
     

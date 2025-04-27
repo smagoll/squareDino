@@ -10,8 +10,11 @@ public class Waypoint : MonoBehaviour
     
     [SerializeField]
     private Enemy[] _enemies;
+    [SerializeField]
+    private Transform place;
     
     public bool IsComplete { get; private set; }
+    public Transform Place => place;
 
     public void Activate(PlayerController playerController)
     {
@@ -65,6 +68,7 @@ public class Waypoint : MonoBehaviour
     private void Complete()
     {
         IsComplete = true;
+        Debug.Log(gameObject.name + "_complete");
         
         OnComplete?.Invoke();
     }
